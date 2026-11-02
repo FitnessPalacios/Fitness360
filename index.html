@@ -1,0 +1,194 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#111827"><title>FITNESS 360 · Mi rutina</title><style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#f8fafc;background:#0b1020}*{box-sizing:border-box}body{margin:0;padding:20px 16px 90px;max-width:720px;margin:auto}h1{font-size:29px;margin:0}h2{font-size:19px}small,.muted{color:#aeb8cd}.hero{padding:22px;border-radius:22px;background:linear-gradient(130deg,#263b71,#151d34);margin-bottom:18px}.hero p{margin:8px 0 0;color:#cdd7ef}.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;position:sticky;top:0;background:#0b1020;padding:9px 0;z-index:2}.tabs button{font-size:12px;padding:12px 4px}.card{background:#171f32;border:1px solid #2c3750;border-radius:18px;padding:16px;margin:12px 0}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.grow{flex:1}button,input,select,textarea{font:inherit;border-radius:11px;border:1px solid #43516c;background:#111a2c;color:white;padding:11px;min-width:0}button{cursor:pointer;background:#293858;font-weight:650}button.primary{background:#7c9cff;color:#081225;border:0}button.danger{background:#512c39}input[type=number]{width:90px}input[type=date]{width:160px}textarea{width:100%}.tab{display:none}.tab.active{display:block}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.grid input{width:100%}.label{font-size:12px;color:#bac7dd;display:block;margin:5px 0}.exercise{border-top:1px solid #35415b;padding-top:13px;margin-top:13px}.set{display:grid;grid-template-columns:32px 1fr 1fr 42px;gap:7px;margin:8px 0;align-items:center}.set input{width:100%}.set button{padding:9px}.pill{display:inline-block;background:#2d4162;border-radius:12px;padding:7px 10px;font-size:13px;margin:4px 4px 4px 0}.entry{border-bottom:1px solid #35415b;padding:10px 0}.entry:last-child{border:0}.notice{font-size:13px;line-height:1.5;color:#b9c7df}canvas{width:100%;height:190px}img.thumb{width:92px;height:110px;object-fit:cover;border-radius:12px;margin:5px} .stat{background:#26324b;padding:12px;border-radius:13px}.stat b{font-size:20px;display:block}
+.progressbox{background:#101b30;border:1px solid #3c537c;border-radius:13px;padding:12px;margin:10px 0}
+.progressbox strong{color:#c7d7ff}
+.progressbox .tip{color:#b9e7cc;font-size:13px;margin-top:7px}
+.prevset{font-size:12px;color:#aebcda;margin:4px 0 7px}
+.delta{font-size:12px;color:#b9e7cc;margin-top:7px}
+.legend{font-size:12px;color:#aeb8cd}
+.dashhero{background:linear-gradient(140deg,#253c77,#14223b);border:1px solid #4963a1;border-radius:20px;padding:20px;margin:12px 0}.dashhero h2{font-size:23px;margin:6px 0}.dashhero p{color:#cbd8f5;line-height:1.5}.dashmetric{background:#202d48;border:1px solid #35496b;border-radius:16px;padding:15px}.dashmetric b{display:block;font-size:24px;margin:6px 0}.dashmetric small{font-size:12px}.meter{height:9px;background:#34425e;border-radius:9px;overflow:hidden;margin-top:10px}.meter span{display:block;height:100%;background:#89a9ff;border-radius:9px}.dashcta{width:100%;font-size:17px;padding:15px}.minirow{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid #34415d}.minirow:last-child{border:0}a{color:#a6baff}</style></head><body>
+<div class="hero"><h1>FITNESS 360 💪</h1><p>Tu progreso, sin complicaciones · Rutina personalizada de 4 días</p><div style="margin-top:12px"><span class="pill">83–84 kg iniciales</span><span class="pill">4 días/semana</span><span class="pill">Prioridad torso</span></div></div>
+<div class="tabs"><button data-tab="inicio" class="primary">🏠 Inicio</button><button data-tab="entreno">🏋️ Entreno</button><button data-tab="cuerpo">📈 Cuerpo</button><button data-tab="comidas">🥗 Dieta</button><button data-tab="fotos">📸 Fotos</button></div>
+<section id="inicio" class="tab active">
+<div class="dashhero"><small>MI PANEL DE PROGRESO</small><h2 id="dashGreeting">Tu camino empieza hoy</h2><p id="dashMotivation">Cada entrenamiento cuenta.</p><button id="dashStart" class="primary dashcta">🏋️ Empezar entrenamiento</button></div>
+<div class="grid"><div class="dashmetric"><small>Entrenos esta semana</small><b id="dashSessions">0 / 4</b><div class="meter"><span id="dashMeter" style="width:0%"></span></div></div><div class="dashmetric"><small>Último peso</small><b id="dashWeight">—</b><small id="dashWeightChange">Sin mediciones</small></div><div class="dashmetric"><small>Ejercicios mejorados</small><b id="dashPR">—</b><small>En la última sesión comparable</small></div><div class="dashmetric"><small>Proteína registrada hoy</small><b id="dashProtein">—</b><small>Objetivo orientativo: 165 g</small></div></div>
+<div class="card"><h2>🎯 Tu objetivo semanal</h2><p class="notice" id="dashGoal"></p><div id="dashWeek"></div></div>
+<div class="card"><h2>📊 Evolución de fuerza</h2><p class="notice">Selecciona un ejercicio para ver la carga máxima registrada y el volumen total de cada sesión. Las series sin repeticiones numéricas no cuentan en el volumen.</p><label class="label" for="strengthExercise">Ejercicio</label><select id="strengthExercise" style="width:100%"></select><div class="row" style="margin-top:10px"><button id="strengthWeight" class="primary" type="button">Peso máximo</button><button id="strengthVolume" type="button">Volumen</button></div><canvas id="strengthChart" width="620" height="270" aria-label="Gráfica de evolución de fuerza" role="img" style="margin-top:12px"></canvas><div id="strengthInfo" class="notice" aria-live="polite"></div></div><div class="card"><h2>📈 Tus últimas mejoras</h2><div id="dashHighlights"></div></div>
+<div class="card"><h2>📋 Última actividad</h2><div id="dashActivity"></div></div>
+</section>
+<section id="entreno" class="tab"><div class="card"><h2>Registrar sesión</h2><p class="notice">Elige uno de tus cuatro entrenamientos. La rutina ya está cargada con ejercicios, series y repeticiones.</p>
+<div id="routineCards" class="grid" style="margin-bottom:14px"></div>
+<div class="row"><select id="day" class="grow" aria-label="Rutina seleccionada"></select><input id="workdate" type="date"></div>
+<div id="exercises"></div><button class="primary" id="saveWorkout" style="width:100%;margin-top:12px">Guardar entrenamiento ✓</button><p class="notice">Los pesos y repeticiones aparecen en blanco hasta tu primer registro. Después verás la sesión anterior, una sugerencia de progresión y tus pesos de referencia. Las repeticiones de hoy se introducen de nuevo. En pierna, no entrenes con sensación de fallo o inestabilidad: requiere valoración profesional.</p></div><div class="card"><h2>Historial de entrenamientos</h2><div id="workHistory"></div></div></section>
+<section id="cuerpo" class="tab"><div class="card"><h2>Peso y medidas</h2><div class="grid"><div><span class="label">Fecha</span><input id="bodydate" type="date"></div><div><span class="label">Peso (kg)</span><input id="weight" type="number" step=".1" placeholder="83.5"></div><div><span class="label">Cintura (cm)</span><input id="waist" type="number" step=".1" placeholder="Opcional"></div><div><span class="label">Horas de sueño</span><input id="sleep" type="number" step=".5" placeholder="Opcional"></div></div><button id="saveBody" class="primary" style="width:100%;margin-top:14px">Guardar medición</button></div><div class="card"><h2>Evolución del peso</h2><canvas id="chart" width="620" height="240"></canvas><div id="bodyHistory"></div></div></section>
+<section id="comidas" class="tab"><div class="card"><h2>Registro flexible</h2><p class="notice">Objetivo inicial orientativo: 2.250 kcal y 165 g de proteína. No hace falta pesar la comida de casa: anota una descripción.</p><span class="label">Fecha</span><input id="fooddate" type="date"><span class="label">Tipo de comida</span><select id="meal"><option>Almuerzo</option><option>Comida</option><option>Merienda</option><option>Cena</option><option>Otro</option></select><span class="label">¿Qué has comido?</span><textarea id="foodtext" rows="3" placeholder="Ej.: 180 g pollo, 250 g patata, ensalada"></textarea><div class="grid"><div><span class="label">Calorías estimadas (opcional)</span><input id="kcal" type="number"></div><div><span class="label">Proteínas g (opcional)</span><input id="protein" type="number"></div></div><button id="saveFood" class="primary" style="width:100%;margin-top:12px">Guardar comida</button></div><div class="card"><h2>Comidas registradas</h2><div id="foodHistory"></div></div></section>
+<section id="fotos" class="tab"><div class="card"><h2>Fotografías de evolución</h2><p class="notice">Guarda fotos de frente, perfil y espalda cada 2 semanas. Se almacenan en este navegador, no se suben a ningún servidor. Usa la copia de seguridad para evitar pérdidas.</p><input id="photodate" type="date"><input id="photo" type="file" accept="image/*" style="width:100%;margin-top:9px"><button id="savePhoto" class="primary" style="width:100%;margin-top:12px">Guardar foto</button></div><div class="card"><h2>Mis fotos</h2><div id="photoHistory"></div></div></section>
+<div class="card"><h2>💾 Copia de seguridad</h2><p class="notice">Tus registros se guardan solo en este navegador/dispositivo. Exporta periódicamente un archivo JSON y guárdalo en Archivos o iCloud. Si borras los datos del navegador sin copia, podrías perder el historial.</p><div class="row"><button id="export" class="primary">Exportar todo</button><label style="background:#293858;border-radius:11px;padding:11px;font-weight:650">Importar copia<input id="import" type="file" accept=".json,application/json" style="display:none"></label></div><p class="notice">Para que yo analice tu progreso, adjunta aquí el JSON exportado. No hay sincronización automática con ChatGPT.</p></div>
+<script>
+const routines=[
+{name:"Lunes · Pecho/hombro/tríceps",ex:[["Press inclinado mancuernas",4,"8-10"],["Press plano máquina",3,"8-12"],["Aperturas polea",3,"12-15"],["Press hombros sentado",3,"8-10"],["Elevaciones laterales",4,"12-20"],["Tríceps polea",3,"10-12"],["Tríceps sobre cabeza",2,"12-15"]]},
+{name:"Martes · Espalda/bíceps",ex:[["Jalón al pecho",4,"8-12"],["Remo apoyo pecho",3,"8-12"],["Jalón unilateral",3,"10-12"],["Remo polea",3,"10-12"],["Pájaros máquina",3,"12-20"],["Curl barra EZ",3,"8-12"],["Curl martillo",3,"10-12"]]},
+{name:"Jueves · Torso completo",ex:[["Press inclinado máquina",3,"8-12"],["Jalón al pecho",3,"10-12"],["Press plano mancuernas",2,"10-12"],["Remo máquina",3,"10-12"],["Elevaciones laterales",4,"15-20"],["Curl polea",3,"10-15"],["Tríceps cuerda",3,"10-15"]]},
+{name:"Viernes · Pierna/abdomen (pendiente de valoración)",ex:[["Puente glúteos (solo si estable)",3,"10-12"],["Curl femoral (solo si estable)",3,"12-15"],["Gemelos sentado (solo si estable)",3,"12-15"],["Dead bug",3,"10/lado"],["Plancha",3,"30-45 s"]]}];
+const key="fitness360-v1";let db;try{db=JSON.parse(localStorage.getItem(key))||{workouts:[],body:[],food:[],photos:[]}}catch{db={workouts:[],body:[],food:[],photos:[]}};const $=id=>document.getElementById(id);const today=()=>new Date().toLocaleDateString("en-CA");["workdate","bodydate","fooddate","photodate"].forEach(id=>$(id).value=today());const persist=()=>{try{localStorage.setItem(key,JSON.stringify(db));return true}catch(e){alert("No hay espacio de almacenamiento. Exporta una copia y elimina fotos antiguas.");return false}};const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));$(b.dataset.tab).classList.add("active");document.querySelectorAll("[data-tab]").forEach(x=>x.classList.remove("primary"));b.classList.add("primary");if(b.dataset.tab==="cuerpo")renderBody();if(b.dataset.tab==="inicio")renderDashboard()});
+$("day").innerHTML=routines.map((r,i)=>`<option value="${i}">${esc(r.name)}</option>`).join("");
+const shortNames=["LUN · Empuje","MAR · Tirón","JUE · Torso","VIE · Pierna"];
+function selectRoutine(i){$("day").value=i;renderExercises();drawRoutineCards()}
+function drawRoutineCards(){$("routineCards").innerHTML=routines.map((r,i)=>`<button class="${+$("day").value===i?"primary":""}" data-routine="${i}" style="text-align:left;min-height:75px">${shortNames[i]}<br><small style="color:inherit">${r.ex.length} ejercicios</small></button>`).join("");document.querySelectorAll("[data-routine]").forEach(b=>b.onclick=()=>selectRoutine(+b.dataset.routine))}
+const dow=new Date().getDay();$("day").value=({1:0,2:1,4:2,5:3})[dow]??0;
+drawRoutineCards();
+
+function previousExercise(name, date) {
+  // Buscar la sesión REAL más reciente anterior a la fecha elegida.
+  // Para dos sesiones del mismo día, la última guardada es la referencia.
+  const sessions = db.workouts.filter(w => w.date <= date)
+    .slice().sort((a,b) => b.date.localeCompare(a.date) || (b.id||0)-(a.id||0));
+  for (const w of sessions) {
+    const ex = (w.exercises||[]).find(e => e.name === name && e.sets?.length);
+    if(ex) return {ex, date:w.date};
+  }
+  return null;
+}
+function numericReps(value) {
+  const s=String(value??"").trim();
+  return /^\d+$/.test(s) ? Number(s) : null;
+}
+function targetRange(target) {
+  const m=String(target).match(/^(\d+)-(\d+)$/);
+  return m ? [Number(m[1]),Number(m[2])] : null;
+}
+function recommendation(prev, target) {
+  if(!prev) return "Primera sesión: elige una carga cómoda y deja 1–3 repeticiones en reserva.";
+  const range=targetRange(target);
+  if(!range) return "Compara tu rendimiento y prioriza la técnica; no se recomienda subida automática para este ejercicio.";
+  const sets=prev.ex.sets;
+  const valid=sets.every(s=>Number(s.kg)>0 && numericReps(s.reps)!==null);
+  if(!valid) return "Hay series sin datos numéricos comparables: mantén una carga controlada.";
+  if(sets.every(s=>numericReps(s.reps)>=range[1]))
+    return "Si completaste todas las series con buena técnica y 1–3 repeticiones en reserva, prueba una subida pequeña (aprox. 2–5%).";
+  if(sets.some(s=>numericReps(s.reps)<range[0]))
+    return "Mantén o reduce ligeramente la carga hasta completar el mínimo del rango con buena técnica.";
+  return "Mantén el peso e intenta conseguir una repetición más en alguna serie.";
+}
+function renderExercises(){
+  const routine=routines[+$("day").value], date=$("workdate").value||today();
+  $("exercises").innerHTML=routine.ex.map(([name,n,reps],i)=>{
+    const prev=previousExercise(name,date), sets=prev?.ex.sets||[];
+    const previous=prev ? `<div class="prevset"><strong>Última sesión · ${esc(prev.date)}</strong><div>${sets.map((s,j)=>`Serie ${j+1}: ${esc(s.kg)} kg × ${esc(s.reps)} rep.`).join("<br>")}</div></div>` : `<div class="prevset">Sin registros anteriores para este ejercicio.</div>`;
+    return `<div class="exercise" data-ex="${i}"><b>${esc(name)}</b>
+      <div class="progressbox">${previous}<div class="legend">Objetivo: ${esc(reps)} · ${n} series</div>
+      <div class="tip">↗ ${esc(recommendation(prev,reps))}</div></div>
+      ${Array.from({length:n},(_,j)=>`<div class="set">
+      <small>${j+1}</small>
+      <input aria-label="Kilogramos serie ${j+1}" type="number" step=".5" min="0" placeholder="kg" value="${esc(sets[j]?.kg??"")}">
+      <input aria-label="Repeticiones serie ${j+1}" type="text" inputmode="numeric" placeholder="reps" value="">
+      <button class="removeSet" title="Quitar serie">×</button></div>`).join("")}
+      <button class="addSet">+ Serie</button>
+      <div class="delta" aria-live="polite"></div></div>`;
+  }).join("");
+  document.querySelectorAll(".addSet").forEach(b=>b.onclick=()=>{
+    const div=document.createElement("div");div.className="set";
+    div.innerHTML='<small>+</small><input aria-label="Kilogramos" type="number" step=".5" min="0" placeholder="kg"><input aria-label="Repeticiones" type="text" inputmode="numeric" placeholder="reps"><button class="removeSet">×</button>';
+    b.before(div);div.querySelector("button").onclick=()=>{div.remove();updateLiveProgress(b.closest(".exercise"))};
+  });
+  document.querySelectorAll(".removeSet").forEach(b=>b.onclick=()=>{const ex=b.closest(".exercise");b.closest(".set").remove();updateLiveProgress(ex)});
+  document.querySelectorAll(".exercise").forEach(node=>node.addEventListener("input",()=>updateLiveProgress(node)));
+}
+function updateLiveProgress(node){
+  const name=routines[+$("day").value].ex[+node.dataset.ex][0];
+  const prev=previousExercise(name,$("workdate").value||today());
+  const current=[...node.querySelectorAll(".set")].map(s=>{
+    const inputs=s.querySelectorAll("input");
+    return {kg:Number(inputs[0].value), reps:numericReps(inputs[1].value),filled:inputs[0].value!==""&&inputs[1].value!==""};
+  });
+  const comparable=current.filter(s=>s.filled&&s.reps!==null);
+  const volume=arr=>arr.reduce((total,s)=>total+Number(s.kg)*Number(s.reps),0);
+  const previousSets=prev?.ex.sets.filter(s=>numericReps(s.reps)!==null)||[];
+  const info=node.querySelector(".delta");
+  if(!prev || !comparable.length || !previousSets.length){info.textContent="";return;}
+  const done=volume(comparable), prior=volume(previousSets);
+  info.textContent=`Volumen registrado hoy: ${done.toFixed(1)} kg·rep · sesión anterior: ${prior.toFixed(1)} kg·rep (${done>=prior?"+":""}${(done-prior).toFixed(1)}). Comparación parcial hasta completar todas las series.`;
+}
+$("day").onchange=()=>{renderExercises();drawRoutineCards()};
+$("workdate").onchange=renderExercises;
+$("saveWorkout").onclick=()=>{let exercises=[...document.querySelectorAll(".exercise")].map((node,i)=>({name:routines[+$("day").value].ex[i][0],sets:[...node.querySelectorAll(".set")].map(s=>({kg:s.querySelectorAll("input")[0].value,reps:s.querySelectorAll("input")[1].value.trim()})).filter(s=>s.kg!==""&&s.reps!=="")})).filter(e=>e.sets.length);if(!exercises.length)return alert("Introduce al menos una serie.");db.workouts.push({id:Date.now(),date:$("workdate").value,day:routines[+$("day").value].name,exercises});if(!persist()){db.workouts.pop();return;}renderExercises();renderWork();renderDashboard();alert("Entrenamiento guardado")};
+function del(type,id){if(!confirm("¿Eliminar este registro?"))return;db[type]=db[type].filter(x=>x.id!==id);persist();renderAll()}
+function renderWork(){$("workHistory").innerHTML=db.workouts.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(w=>`<div class="entry"><b>${esc(w.date)} · ${esc(w.day)}</b><p class="notice">${w.exercises.map(e=>esc(e.name)+": "+e.sets.map(s=>esc(s.kg)+" kg × "+esc(s.reps)).join(", ")).join("<br>")}</p><button class="danger" onclick="del('workouts',${w.id})">Eliminar</button></div>`).join("")||'<p class="muted">Todavía no hay entrenamientos.</p>'}
+$("saveBody").onclick=()=>{if(!$("weight").value&&!$("waist").value)return alert("Introduce peso o cintura");db.body.push({id:Date.now(),date:$("bodydate").value,weight:$("weight").value,waist:$("waist").value,sleep:$("sleep").value});persist();renderBody();renderDashboard();$("weight").value=$("waist").value=$("sleep").value=""};
+function renderBody(){let data=db.body.slice().sort((a,b)=>a.date.localeCompare(b.date));$("bodyHistory").innerHTML=data.slice().reverse().map(e=>`<div class="entry">${esc(e.date)} · <b>${esc(e.weight||"—")} kg</b> · cintura ${esc(e.waist||"—")} cm · sueño ${esc(e.sleep||"—")} h <button class="danger" onclick="del('body',${e.id})">×</button></div>`).join("")||'<p class="muted">Añade tu primera medición.</p>';let c=$("chart"),ctx=c.getContext("2d");ctx.clearRect(0,0,c.width,c.height);let p=data.filter(e=>e.weight!==""&&Number.isFinite(+e.weight)).map(e=>+e.weight);ctx.strokeStyle="#42516f";ctx.beginPath();ctx.moveTo(40,12);ctx.lineTo(40,210);ctx.lineTo(600,210);ctx.stroke();if(!p.length)return;let min=Math.min(...p)-1,max=Math.max(...p)+1;ctx.strokeStyle="#9eb4ff";ctx.lineWidth=3;ctx.beginPath();p.forEach((v,i)=>{let x=40+(p.length===1?280:i*540/(p.length-1)),y=200-(v-min)/(max-min)*175;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();ctx.fillStyle="#d5dfff";ctx.font="15px sans-serif";ctx.fillText(max.toFixed(1)+" kg",43,20);ctx.fillText(min.toFixed(1)+" kg",43,205)}
+$("saveFood").onclick=()=>{if(!$("foodtext").value.trim())return alert("Describe la comida");db.food.push({id:Date.now(),date:$("fooddate").value,meal:$("meal").value,description:$("foodtext").value,kcal:$("kcal").value,protein:$("protein").value});persist();$("foodtext").value=$("kcal").value=$("protein").value="";renderFood();renderDashboard()};
+function renderFood(){$("foodHistory").innerHTML=db.food.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(e=>`<div class="entry"><b>${esc(e.date)} · ${esc(e.meal)}</b><div>${esc(e.description)}</div><small>${e.kcal?esc(e.kcal)+" kcal · ":""}${e.protein?esc(e.protein)+" g proteína":""}</small> <button class="danger" onclick="del('food',${e.id})">×</button></div>`).join("")||'<p class="muted">Aún no hay comidas.</p>'}
+$("savePhoto").onclick=()=>{let file=$("photo").files[0];if(!file)return alert("Selecciona una foto");let im=new Image(),reader=new FileReader();reader.onload=()=>im.src=reader.result;im.onload=()=>{let canvas=document.createElement("canvas"),scale=Math.min(1,900/im.width,900/im.height);canvas.width=im.width*scale;canvas.height=im.height*scale;canvas.getContext("2d").drawImage(im,0,0,canvas.width,canvas.height);db.photos.push({id:Date.now(),date:$("photodate").value,data:canvas.toDataURL("image/jpeg",.65)});if(persist()){renderPhotos();$("photo").value=""}else db.photos.pop()};reader.readAsDataURL(file)};
+function renderPhotos(){$("photoHistory").innerHTML=db.photos.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(p=>`<div style="display:inline-block;text-align:center"><img class="thumb" src="${p.data}"><br><small>${esc(p.date)}</small><br><button class="danger" onclick="del('photos',${p.id})">×</button></div>`).join("")||'<p class="muted">Todavía no hay fotografías.</p>'}
+$("export").onclick=()=>{let blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),...db})],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="fitness360-copia-"+today()+".json";a.click();setTimeout(()=>URL.revokeObjectURL(url),3000)};
+$("import").onchange=async e=>{try{let d=JSON.parse(await e.target.files[0].text());if(!["workouts","body","food","photos"].every(k=>Array.isArray(d[k])))throw Error();if(!confirm("¿Reemplazar todos los registros por los de la copia?"))return;db={workouts:d.workouts,body:d.body,food:d.food,photos:d.photos};persist();renderAll()}catch{alert("Archivo de copia no válido")}e.target.value=""};
+function openTab(name){const b=document.querySelector(`[data-tab="${name}"]`);if(b)b.click()}
+$("dashStart").onclick=()=>openTab("entreno");
+function dateKey(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-")}
+let strengthMetric="weight";
+function strengthRecords(name){
+ return db.workouts.flatMap(w=>(w.exercises||[]).filter(e=>e.name===name).map(e=>{
+  const valid=(e.sets||[]).filter(x=>Number(x.kg)>0 && numericReps(x.reps)!==null && numericReps(x.reps)>0);
+  if(!valid.length)return null;
+  return {date:w.date,id:w.id||0,weight:Math.max(...valid.map(x=>Number(x.kg))),volume:valid.reduce((a,x)=>a+Number(x.kg)*numericReps(x.reps),0)};
+ }).filter(Boolean)).sort((a,b)=>a.date.localeCompare(b.date)||a.id-b.id);
+}
+function renderStrength(){
+ const select=$("strengthExercise"), previous=select.value;
+ const names=[...new Set(db.workouts.flatMap(w=>(w.exercises||[]).map(e=>e.name)))].sort((a,b)=>a.localeCompare(b,"es"));
+ select.innerHTML=names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join("");
+ if(names.includes(previous))select.value=previous;
+ const canvas=$("strengthChart"),ctx=canvas.getContext("2d"),info=$("strengthInfo");ctx.clearRect(0,0,canvas.width,canvas.height);
+ const data=strengthRecords(select.value),key=strengthMetric,unit=key==="weight"?"kg":"kg·rep";
+ $("strengthWeight").classList.toggle("primary",key==="weight");$("strengthVolume").classList.toggle("primary",key==="volume");
+ if(!data.length){info.textContent="Guarda tu primer entrenamiento para empezar la gráfica.";return;}
+ const values=data.map(x=>x[key]);const lo=Math.max(0,Math.min(...values)*.9),hi=Math.max(...values)*1.1||1,span=Math.max(hi-lo,1);
+ const L=58,R=canvas.width-22,T=24,B=canvas.height-48;
+ ctx.strokeStyle="#455571";ctx.lineWidth=1;ctx.font="13px sans-serif";ctx.fillStyle="#c8d5ef";
+ for(let i=0;i<=4;i++){let y=T+(B-T)*i/4;ctx.beginPath();ctx.moveTo(L,y);ctx.lineTo(R,y);ctx.stroke();ctx.fillText((hi-span*i/4).toFixed(0),5,y+4)}
+ const points=data.map((d,i)=>({x:L+(data.length===1?(R-L)/2:i*(R-L)/(data.length-1)),y:B-(d[key]-lo)/span*(B-T)}));
+ ctx.strokeStyle="#91b0ff";ctx.lineWidth=3;ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();
+ ctx.fillStyle="#b4e8cc";points.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);ctx.fill()});
+ ctx.fillStyle="#c8d5ef";ctx.fillText(data[0].date,L,B+25);if(data.length>1){ctx.textAlign="right";ctx.fillText(data.at(-1).date,R,B+25);ctx.textAlign="left"}
+ const first=values[0],last=values.at(-1),diff=last-first;
+ info.textContent=`${data.length} sesión(es) registradas · Primera: ${first.toFixed(1)} ${unit} · Última: ${last.toFixed(1)} ${unit}${data.length>1?` · Cambio: ${diff>=0?"+":""}${diff.toFixed(1)} ${unit}`:""}. El peso máximo es la serie más pesada, no una estimación de 1RM.`;
+}
+$("strengthExercise").onchange=renderStrength;
+$("strengthWeight").onclick=()=>{strengthMetric="weight";renderStrength()};
+$("strengthVolume").onclick=()=>{strengthMetric="volume";renderStrength()};
+function renderDashboard(){
+  renderStrength();
+  const now=new Date(), start=new Date(now.getFullYear(),now.getMonth(),now.getDate());start.setDate(start.getDate()-(start.getDay()+6)%7);
+  const monday=dateKey(start), sunday=new Date(start);sunday.setDate(sunday.getDate()+6);
+  const week=db.workouts.filter(w=>w.date>=monday&&w.date<=dateKey(sunday));
+  const unique=new Set(week.map(w=>w.day));const completed=Math.min(4,unique.size);
+  $("dashSessions").textContent=`${completed} / 4`;$("dashMeter").style.width=`${completed*25}%`;
+  const measures=db.body.filter(x=>x.weight!==""&&Number.isFinite(Number(x.weight))&&Number(x.weight)>0).slice().sort((a,b)=>a.date.localeCompare(b.date)||a.id-b.id);
+  const latest=measures.at(-1),first=measures[0];
+  $("dashWeight").textContent=latest?`${Number(latest.weight).toLocaleString("es-ES")} kg`:"—";
+  $("dashWeightChange").textContent=latest&&first&&latest!==first?`Desde el primer registro: ${(Number(latest.weight)-Number(first.weight)).toFixed(1)} kg`:"Añade tu primera medición";
+  const foods=db.food.filter(x=>x.date===today()&&x.protein!==""&&Number.isFinite(Number(x.protein))&&Number(x.protein)>=0);
+  $("dashProtein").textContent=foods.length?`${foods.reduce((n,x)=>n+Number(x.protein),0).toFixed(0)} g`:"—";
+  const sorted=db.workouts.slice().sort((a,b)=>a.date.localeCompare(b.date)||(a.id||0)-(b.id||0));
+  const last=sorted.at(-1), previous=last?sorted.slice(0,-1):[];let improved=[];let comparable=0;
+  if(last)for(const ex of last.exercises||[]){
+    let old=null;for(let i=previous.length-1;i>=0;i--){old=(previous[i].exercises||[]).find(e=>e.name===ex.name&&e.sets?.length);if(old)break}
+    if(!old)continue;
+    const valid=sets=>sets.length&&sets.every(s=>Number(s.kg)>0&&numericReps(s.reps)!==null);
+    if(!valid(ex.sets)||!valid(old.sets))continue;
+    comparable++;
+    const volume=sets=>sets.reduce((n,s)=>n+Number(s.kg)*numericReps(s.reps),0);
+    if(volume(ex.sets)>volume(old.sets))improved.push({name:ex.name,percent:(volume(ex.sets)/volume(old.sets)-1)*100});
+  }
+  $("dashPR").textContent=comparable?`${improved.length} / ${comparable}`:"—";
+  $("dashGreeting").textContent=completed===4?"¡Semana completada! 💪":completed?"Sigue construyendo tu progreso":"Tu próxima mejora empieza aquí";
+  $("dashMotivation").textContent=completed===4?"Has registrado las cuatro sesiones previstas. Recupera bien y prepara la próxima semana.":improved.length?`¡Has mejorado en ${improved.length} ejercicio${improved.length===1?"":"s"} respecto a sus registros anteriores! Sigue cuidando la técnica.`:completed?"Ya has empezado esta semana. La constancia cuenta más que un día perfecto.":"Todavía no hay sesiones registradas esta semana. Tu objetivo es completar la primera.";
+  $("dashGoal").textContent=`${completed} de 4 rutinas diferentes registradas esta semana. ${completed===4?"Objetivo alcanzado.":`Te quedan ${4-completed} para completar el objetivo.`}`;
+  $("dashWeek").innerHTML=routines.map((r,i)=>`<div class="minirow"><span>${esc(shortNames[i])}</span><span>${week.some(w=>w.day===r.name)?"✅ Registrado":"○ Pendiente"}</span></div>`).join("");
+  $("dashHighlights").innerHTML=improved.length?improved.slice(0,4).map(e=>`<div class="minirow"><span>${esc(e.name)}</span><strong>+${e.percent.toFixed(1)}% volumen</strong></div>`).join(""):'<p class="notice">Cuando guardes dos sesiones comparables del mismo ejercicio, aparecerán aquí tus mejoras reales.</p>';
+  const activity=[...db.workouts.map(x=>({date:x.date,text:"🏋️ "+x.day})),...db.body.map(x=>({date:x.date,text:"⚖️ Medición corporal"}))].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,4);
+  $("dashActivity").innerHTML=activity.length?activity.map(x=>`<div class="minirow"><span>${esc(x.text)}</span><small>${esc(x.date)}</small></div>`).join(""):'<p class="notice">Aquí aparecerán tus entrenamientos y mediciones cuando los registres.</p>';
+}
+function renderAll(){renderExercises();drawRoutineCards();renderWork();renderBody();renderFood();renderPhotos();renderDashboard()}renderAll();
+</script></body></html>
